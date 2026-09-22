@@ -4,8 +4,9 @@ __pycache__/
 .env
 venv/
 data/raw/
-data/processed/
 models/*.h5
 models/*.tflite
 .ipynb_checkpoints/
 *.log
+frontend/node_modules/
+frontend/dist/

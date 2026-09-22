@@ -1,0 +1,26 @@
+# Dockerfile do backend (FastAPI + LSTM). Fica na raiz do projeto porque
+# o backend precisa de arquivos que estão FORA da pasta backend/:
+# models/ (o .keras treinado) e data/processed/v1/ (scaler + features).
+#
+# No Railway: Settings > Build > "Dockerfile Path" = Dockerfile.backend
+# (Root Directory do serviço continua "/", a raiz do repo).
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Só o requirements.txt primeiro, pra aproveitar cache do Docker quando
+# só o código mudar (sem precisar reinstalar tensorflow toda hora).
+COPY backend/requirements.txt backend/requirements.txt
+RUN pip install --no-cache-dir -r backend/requirements.txt
+
+# Código do backend + tudo que o model_service.py precisa em runtime
+COPY backend/ backend/
+COPY models/ models/
+COPY data/processed/ data/processed/
+
+WORKDIR /app/backend
+
+# O Railway injeta a porta real na variável $PORT — não é fixo em 8000.
+EXPOSE 8000
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]

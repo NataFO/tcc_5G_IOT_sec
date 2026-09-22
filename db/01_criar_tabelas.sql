@@ -1,10 +1,8 @@
-notepad db\01_criar_tabelas.sql
-
 CREATE TABLE tb_usuario (
     id_usuario SERIAL PRIMARY KEY NOT NULL,
     nome_completo VARCHAR(120) NOT NULL,
     login VARCHAR(60) NOT NULL UNIQUE,
-    senha_hash CHAR(64) NOT NULL,
+    senha_hash VARCHAR(255) NOT NULL,
     perfil VARCHAR(20) DEFAULT 'analista' NOT NULL,
     ativo SMALLINT DEFAULT 1 NOT NULL,
     criado_em TIMESTAMP DEFAULT NOW() NOT NULL,

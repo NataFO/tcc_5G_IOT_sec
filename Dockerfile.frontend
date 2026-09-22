@@ -1,0 +1,31 @@
+# Dockerfile do frontend (React/Vite). Fica na raiz do projeto pelo
+# mesmo motivo do Dockerfile.backend (um Dockerfile por serviço, mesmo
+# repositório).
+#
+# IMPORTANTE: o Vite "assa" o valor de VITE_API_URL dentro do bundle
+# em TEMPO DE BUILD, não de execução. Por isso ele entra como ARG e
+# precisa estar configurado como variável do serviço no Railway (o
+# Railway repassa as variáveis do serviço como build args automaticamente).
+#
+# No Railway: Settings > Build > "Dockerfile Path" = Dockerfile.frontend
+
+FROM node:20-alpine AS build
+WORKDIR /app
+
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+
+COPY frontend/ .
+
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+RUN npm run build
+
+# Imagem final: só o build estático + um servidor leve pra servi-lo.
+FROM node:20-alpine
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=build /app/dist ./dist
+
+EXPOSE 3000
+CMD ["sh", "-c", "serve -s dist -l ${PORT:-3000}"]
