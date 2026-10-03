@@ -81,6 +81,7 @@ export const api = {
     if (status) params.set("status", status);
     return request(`/alertas/?${params.toString()}`);
   },
+  resumoAlertas: () => request("/alertas/resumo"),
   atualizarAlerta: (id, dados) =>
     request(`/alertas/${id}`, { method: "PATCH", body: dados }),
 };

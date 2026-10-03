@@ -1,6 +1,12 @@
 // Valores de exemplo para as 20 features numéricas que o modelo LSTM espera.
-// Servem apenas para testar rapidamente o POST /logs pela interface — em uso
-// real esses valores viriam de uma ferramenta de captura de tráfego (ex.: CICFlowMeter).
+// Servem para testar rapidamente o POST /logs pela interface — em uso real
+// esses valores viriam de uma ferramenta de captura de tráfego.
+//
+// Os dois presets são amostras REAIS do conjunto de teste (valores brutos,
+// testes/conjunto_teste_bruto.csv), escolhidas entre as que o modelo
+// classifica corretamente e com valores típicos do seu grupo. Os valores
+// inventados que estavam aqui antes ficavam fora da distribuição do dataset
+// e o preset "Normal" acabava classificado como ataque.
 export const FEATURE_KEYS = [
   "network_packets_all_count",
   "network_packets_dst_count",
@@ -24,48 +30,50 @@ export const FEATURE_KEYS = [
   "network_mss_min",
 ];
 
+// Tráfego benigno — amostra 2032 do conjunto de teste (probabilidade de ataque: 0.10)
 export const PRESET_NORMAL = {
-  network_packets_all_count: 12,
-  network_packets_dst_count: 6,
-  network_ports_src_count: 1,
+  network_packets_all_count: 14,
+  network_packets_dst_count: 7,
+  network_ports_src_count: 2,
   network_ports_all_count: 2,
-  network_time_delta_avg: 0.05,
-  network_packet_size_min: 64,
-  network_ports_dst_count: 1,
-  network_packets_src_count: 6,
+  network_time_delta_avg: 0.015919786,
+  network_packet_size_min: 54,
+  network_ports_dst_count: 2,
+  network_packets_src_count: 7,
   network_tcp_flags_rst_count: 0,
-  network_tcp_flags_syn_count: 1,
-  network_tcp_flags_ack_count: 11,
-  network_time_delta_max: 0.2,
-  network_window_size_std_deviation: 120,
-  network_time_delta_min: 0.001,
-  network_mss_max: 1460,
-  network_time_delta_std_deviation: 0.03,
-  network_ttl_avg: 64,
-  network_packet_size_max: 512,
-  network_interval_packets: 0.08,
-  network_mss_min: 1460,
+  network_tcp_flags_syn_count: 0,
+  network_tcp_flags_ack_count: 14,
+  network_time_delta_max: 0.067932,
+  network_window_size_std_deviation: 29218.571436953,
+  network_time_delta_min: 0,
+  network_mss_max: 0,
+  network_time_delta_std_deviation: 0.023477818,
+  network_ttl_avg: 159.5,
+  network_packet_size_max: 72,
+  network_interval_packets: 308.615384615,
+  network_mss_min: 0,
 };
 
+// Ataque DDoS — amostra 4789 do conjunto de teste (probabilidade de ataque: 1.00)
 export const PRESET_ATAQUE = {
-  network_packets_all_count: 50000,
-  network_packets_dst_count: 49000,
-  network_ports_src_count: 4000,
-  network_ports_all_count: 5000,
-  network_time_delta_avg: 0.0002,
-  network_packet_size_min: 40,
-  network_ports_dst_count: 1,
-  network_packets_src_count: 49500,
-  network_tcp_flags_rst_count: 1200,
-  network_tcp_flags_syn_count: 48000,
-  network_tcp_flags_ack_count: 300,
-  network_time_delta_max: 0.001,
-  network_window_size_std_deviation: 5,
-  network_time_delta_min: 0.00001,
-  network_mss_max: 1460,
-  network_time_delta_std_deviation: 0.0001,
-  network_ttl_avg: 32,
-  network_packet_size_max: 60,
-  network_interval_packets: 0.0003,
+  network_packets_all_count: 120795,
+  network_packets_dst_count: 120625,
+  network_ports_src_count: 28911,
+  network_ports_all_count: 28911,
+  network_time_delta_avg: 1.0861e-05,
+  network_packet_size_min: 60,
+  network_ports_dst_count: 166,
+  network_packets_src_count: 170,
+  network_tcp_flags_rst_count: 164,
+  network_tcp_flags_syn_count: 0,
+  network_tcp_flags_ack_count: 164,
+  network_time_delta_max: 0.019545306,
+  network_window_size_std_deviation: 142.429407225,
+  network_time_delta_min: 2.6e-08,
+  network_mss_max: 0,
+  network_time_delta_std_deviation: 8.5158e-05,
+  network_ttl_avg: 64.26090736,
+  network_packet_size_max: 230,
+  network_interval_packets: 0.022078911,
   network_mss_min: 0,
 };

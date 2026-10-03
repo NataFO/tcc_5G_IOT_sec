@@ -45,3 +45,31 @@ def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
         raise credenciais_invalidas
 
     return payload
+
+
+# ── Controle de acesso por perfil (RF05 / CT13) ──────────────────────────
+# Perfis existentes (constraint chk_perfil da tb_usuario):
+#   admin    → tudo, inclusive configurar dispositivos
+#   analista → investiga alertas e envia logs; não mexe em dispositivos
+#   viewer   → só consulta (nenhuma alteração)
+def exigir_perfil(*perfis_permitidos: str):
+    """
+    Cria uma dependência que só deixa passar usuários com um dos perfis
+    informados. Quem estiver logado com outro perfil recebe 403 (Proibido).
+
+    Uso numa rota:
+        @router.post("/", dependencies=[Depends(exigir_perfil("admin"))])
+    """
+    def verificar(usuario: dict = Depends(get_current_user)) -> dict:
+        perfil = usuario.get("perfil")
+        if perfil not in perfis_permitidos:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=(
+                    f"Acesso negado: o perfil '{perfil}' não pode executar esta ação "
+                    f"(permitido para: {', '.join(perfis_permitidos)})."
+                ),
+            )
+        return usuario
+
+    return verificar

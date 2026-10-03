@@ -1,0 +1,335 @@
+{
+  "url": "http://localhost:8000",
+  "inicio": "2026-10-02T19:56:45",
+  "resultados": [
+    {
+      "perfil": "sem login",
+      "acao": "Listar dispositivos",
+      "metodo": "GET",
+      "rota": "/dispositivos/",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "sem login",
+      "acao": "Listar logs",
+      "metodo": "GET",
+      "rota": "/logs/?limite=5",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "sem login",
+      "acao": "Listar alertas",
+      "metodo": "GET",
+      "rota": "/alertas/?limite=5",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "sem login",
+      "acao": "Resumo de alertas",
+      "metodo": "GET",
+      "rota": "/alertas/resumo",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "sem login",
+      "acao": "Cadastrar dispositivo",
+      "metodo": "POST",
+      "rota": "/dispositivos/",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "sem login",
+      "acao": "Editar dispositivo",
+      "metodo": "PATCH",
+      "rota": "/dispositivos/999999",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "sem login",
+      "acao": "Desativar dispositivo",
+      "metodo": "DELETE",
+      "rota": "/dispositivos/999999",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "sem login",
+      "acao": "Mudar status de alerta",
+      "metodo": "PATCH",
+      "rota": "/alertas/999999",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "sem login",
+      "acao": "Enviar log de rede",
+      "metodo": "POST",
+      "rota": "/logs/",
+      "http": 401,
+      "esperado": [
+        401
+      ],
+      "ok": true,
+      "detalhe": "Not authenticated"
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Listar dispositivos",
+      "metodo": "GET",
+      "rota": "/dispositivos/",
+      "http": 200,
+      "esperado": [
+        200
+      ],
+      "ok": true,
+      "detalhe": ""
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Listar logs",
+      "metodo": "GET",
+      "rota": "/logs/?limite=5",
+      "http": 200,
+      "esperado": [
+        200
+      ],
+      "ok": true,
+      "detalhe": ""
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Listar alertas",
+      "metodo": "GET",
+      "rota": "/alertas/?limite=5",
+      "http": 200,
+      "esperado": [
+        200
+      ],
+      "ok": true,
+      "detalhe": ""
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Resumo de alertas",
+      "metodo": "GET",
+      "rota": "/alertas/resumo",
+      "http": 200,
+      "esperado": [
+        200
+      ],
+      "ok": true,
+      "detalhe": ""
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Cadastrar dispositivo",
+      "metodo": "POST",
+      "rota": "/dispositivos/",
+      "http": 403,
+      "esperado": [
+        403
+      ],
+      "ok": true,
+      "detalhe": "Acesso negado: o perfil 'viewer' não pode executar esta ação (permitido para: admin)."
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Editar dispositivo",
+      "metodo": "PATCH",
+      "rota": "/dispositivos/999999",
+      "http": 403,
+      "esperado": [
+        403
+      ],
+      "ok": true,
+      "detalhe": "Acesso negado: o perfil 'viewer' não pode executar esta ação (permitido para: admin)."
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Desativar dispositivo",
+      "metodo": "DELETE",
+      "rota": "/dispositivos/999999",
+      "http": 403,
+      "esperado": [
+        403
+      ],
+      "ok": true,
+      "detalhe": "Acesso negado: o perfil 'viewer' não pode executar esta ação (permitido para: admin)."
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Mudar status de alerta",
+      "metodo": "PATCH",
+      "rota": "/alertas/999999",
+      "http": 403,
+      "esperado": [
+        403
+      ],
+      "ok": true,
+      "detalhe": "Acesso negado: o perfil 'viewer' não pode executar esta ação (permitido para: admin, analista)."
+    },
+    {
+      "perfil": "viewer",
+      "acao": "Enviar log de rede",
+      "metodo": "POST",
+      "rota": "/logs/",
+      "http": 403,
+      "esperado": [
+        403
+      ],
+      "ok": true,
+      "detalhe": "Acesso negado: o perfil 'viewer' não pode executar esta ação (permitido para: admin, analista)."
+    },
+    {
+      "perfil": "admin",
+      "acao": "Listar dispositivos",
+      "metodo": "GET",
+      "rota": "/dispositivos/",
+      "http": 200,
+      "esperado": [
+        200
+      ],
+      "ok": true,
+      "detalhe": ""
+    },
+    {
+      "perfil": "admin",
+      "acao": "Listar logs",
+      "metodo": "GET",
+      "rota": "/logs/?limite=5",
+      "http": 200,
+      "esperado": [
+        200
+      ],
+      "ok": true,
+      "detalhe": ""
+    },
+    {
+      "perfil": "admin",
+      "acao": "Listar alertas",
+      "metodo": "GET",
+      "rota": "/alertas/?limite=5",
+      "http": 200,
+      "esperado": [
+        200
+      ],
+      "ok": true,
+      "detalhe": ""
+    },
+    {
+      "perfil": "admin",
+      "acao": "Resumo de alertas",
+      "metodo": "GET",
+      "rota": "/alertas/resumo",
+      "http": 200,
+      "esperado": [
+        200
+      ],
+      "ok": true,
+      "detalhe": ""
+    },
+    {
+      "perfil": "admin",
+      "acao": "Cadastrar dispositivo",
+      "metodo": "POST",
+      "rota": "/dispositivos/",
+      "http": 422,
+      "esperado": [
+        404,
+        422
+      ],
+      "ok": true,
+      "detalhe": "Endereço IP inválido: 'ip-invalido-ct13'."
+    },
+    {
+      "perfil": "admin",
+      "acao": "Editar dispositivo",
+      "metodo": "PATCH",
+      "rota": "/dispositivos/999999",
+      "http": 422,
+      "esperado": [
+        404,
+        422
+      ],
+      "ok": true,
+      "detalhe": "Endereço IP inválido: 'ip-invalido-ct13'."
+    },
+    {
+      "perfil": "admin",
+      "acao": "Desativar dispositivo",
+      "metodo": "DELETE",
+      "rota": "/dispositivos/999999",
+      "http": 404,
+      "esperado": [
+        404,
+        422
+      ],
+      "ok": true,
+      "detalhe": "Dispositivo não encontrado"
+    },
+    {
+      "perfil": "admin",
+      "acao": "Mudar status de alerta",
+      "metodo": "PATCH",
+      "rota": "/alertas/999999",
+      "http": 404,
+      "esperado": [
+        404,
+        422
+      ],
+      "ok": true,
+      "detalhe": "Alerta não encontrado"
+    },
+    {
+      "perfil": "admin",
+      "acao": "Enviar log de rede",
+      "metodo": "POST",
+      "rota": "/logs/",
+      "http": 404,
+      "esperado": [
+        404,
+        422
+      ],
+      "ok": true,
+      "detalhe": "Dispositivo não encontrado"
+    }
+  ]
+}

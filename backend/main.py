@@ -41,3 +41,23 @@ def health_check():
         "sistema": "Segurança Cibernética 5G com IA",
         "versao": "1.0.0"
     }
+
+# ── Teste de disponibilidade (CT10) ──────────────────────────────────────
+# Rota que derruba o processo de propósito, para simular a falha de um nó
+# e medir quanto tempo a plataforma (Railway) leva para colocá-lo de pé de
+# novo. Ela SÓ EXISTE quando a variável de ambiente PERMITIR_TESTE_FALHA=1
+# estiver definida, e só um admin pode chamá-la. Ligue a variável apenas
+# durante o teste e desligue logo depois.
+import os
+
+if os.getenv("PERMITIR_TESTE_FALHA") == "1":
+    import threading
+    from fastapi import Depends
+    from security import exigir_perfil
+
+    @app.post("/admin/simular-falha", tags=["Testes (CT10)"],
+              dependencies=[Depends(exigir_perfil("admin"))])
+    def simular_falha():
+        """Encerra o processo com código de erro em 0,5 s (simula queda do nó)."""
+        threading.Timer(0.5, lambda: os._exit(1)).start()
+        return {"mensagem": "O processo será encerrado em 0,5 s para simular a falha do nó."}

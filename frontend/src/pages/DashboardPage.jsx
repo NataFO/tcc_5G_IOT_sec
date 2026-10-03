@@ -7,24 +7,29 @@ export default function DashboardPage() {
   const [dispositivos, setDispositivos] = useState([]);
   const [logs, setLogs] = useState([]);
   const [alertas, setAlertas] = useState([]);
+  const [totalAbertos, setTotalAbertos] = useState(0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let ativo = true;
-    async function carregar() {
-      setLoading(true);
+    // silencioso = recarga disparada por um alerta novo: atualiza os números
+    // sem trocar tudo por "…" na tela.
+    async function carregar(silencioso = false) {
+      if (!silencioso) setLoading(true);
       setError(null);
       try {
-        const [d, l, a] = await Promise.all([
+        const [d, l, a, resumo] = await Promise.all([
           api.listarDispositivos(),
           api.listarLogs({ limite: 10 }),
           api.listarAlertas({ limite: 5, status: "aberto" }),
+          api.resumoAlertas(),
         ]);
         if (!ativo) return;
         setDispositivos(d);
         setLogs(l);
         setAlertas(a);
+        setTotalAbertos(resumo.aberto || 0);
       } catch (err) {
         if (ativo) setError(err.message);
       } finally {
@@ -32,8 +37,11 @@ export default function DashboardPage() {
       }
     }
     carregar();
+    const aoChegarAlerta = () => carregar(true);
+    window.addEventListener("novo-alerta", aoChegarAlerta);
     return () => {
       ativo = false;
+      window.removeEventListener("novo-alerta", aoChegarAlerta);
     };
   }, []);
 
@@ -57,7 +65,7 @@ export default function DashboardPage() {
         </div>
         <div className="stat-card">
           <span className="stat-label">Alertas em aberto</span>
-          <span className="stat-value">{loading ? "…" : alertas.length}</span>
+          <span className="stat-value">{loading ? "…" : totalAbertos}</span>
           <span className="stat-sub">Exigem investigação</span>
         </div>
         <div className="stat-card">

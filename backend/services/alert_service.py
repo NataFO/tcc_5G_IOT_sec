@@ -45,6 +45,9 @@ def criar_alerta(
         "status_alerta":            "aberto"
     })
 
-    db.commit()
+    # Lê o resultado ANTES do commit: depois do commit a conexão volta ao pool e,
+    # com requisições simultâneas, outra requisição pode pegá-la e fechar este
+    # cursor ("cursor already closed" — achado no teste de carga CT09).
     id_alerta = resultado.fetchone()[0]
+    db.commit()
     return id_alerta

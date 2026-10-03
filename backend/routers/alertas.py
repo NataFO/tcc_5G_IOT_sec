@@ -4,7 +4,7 @@ from sqlalchemy import text
 
 from models.database import get_db
 from schemas.schemas import AlertaResponse, AlertaUpdate
-from security import get_current_user
+from security import get_current_user, exigir_perfil
 
 # dependencies=[...] exige um token JWT válido em TODAS as rotas deste
 # router (RF05 / CT13) — quem chamar sem "Authorization: Bearer <token>"
@@ -52,6 +52,22 @@ def listar_alertas(
 
     return [dict(a._mapping) for a in alertas]
 
+@router.get("/resumo")
+def resumo_alertas(db: Session = Depends(get_db)):
+    """
+    Quantidade de alertas por status (ex.: {"aberto": 2344, "resolvido": 3}).
+    Usado pelo card "Alertas em aberto" da Visão geral, que antes contava só
+    os 5 alertas que a tela buscava e por isso nunca passava de 5.
+    (Declarada antes de "/{id_alerta}" para "resumo" não ser lido como id.)
+    """
+    linhas = db.execute(text("""
+        SELECT status_alerta, COUNT(*) AS total
+        FROM tb_alerta
+        GROUP BY status_alerta
+    """)).fetchall()
+    return {l.status_alerta: l.total for l in linhas}
+
+
 @router.get("/{id_alerta}")
 def buscar_alerta(id_alerta: int, db: Session = Depends(get_db)):
     """Retorna um alerta específico pelo ID."""
@@ -68,7 +84,7 @@ def buscar_alerta(id_alerta: int, db: Session = Depends(get_db)):
 
     return dict(alerta._mapping)
 
-@router.patch("/{id_alerta}")
+@router.patch("/{id_alerta}", dependencies=[Depends(exigir_perfil("admin", "analista"))])
 def atualizar_alerta(
     id_alerta: int,
     dados: AlertaUpdate,
@@ -95,9 +111,10 @@ def atualizar_alerta(
         "observacoes":   dados.observacoes,
         "id_alerta":     id_alerta
     })
+    linha = resultado.fetchone()  # antes do commit: com requisições simultâneas o cursor pode ser fechado depois dele
     db.commit()
 
-    if not resultado.fetchone():
+    if not linha:
         raise HTTPException(status_code=404, detail="Alerta não encontrado")
 
     return {"mensagem": "Alerta atualizado com sucesso"}

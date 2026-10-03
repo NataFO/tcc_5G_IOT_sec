@@ -1,0 +1,64 @@
+{
+  "backend": "http://localhost:8000",
+  "ambiente": "Local",
+  "inicio": "2026-09-28T22:59:14",
+  "fim": "2026-09-28T23:06:02",
+  "amostras": 6759,
+  "vp": 2220,
+  "vn": 3980,
+  "fp": 124,
+  "fn": 435,
+  "acuracia": 0.9172954579079745,
+  "fpr": 0.030214424951267055,
+  "fnr_geral": 0.1638418079096045,
+  "fnr_ddos": 0.10775047258979206,
+  "n_ddos": 529,
+  "fnr_por_tipo": {
+    "bruteforce": {
+      "n": 58,
+      "fnr": 0.29310344827586204
+    },
+    "ddos": {
+      "n": 529,
+      "fnr": 0.10775047258979206
+    },
+    "dos": {
+      "n": 509,
+      "fnr": 0.03732809430255403
+    },
+    "malware": {
+      "n": 214,
+      "fnr": 0.08411214953271028
+    },
+    "mitm": {
+      "n": 247,
+      "fnr": 0.41700404858299595
+    },
+    "recon": {
+      "n": 1020,
+      "fnr": 0.2088235294117647
+    },
+    "web": {
+      "n": 78,
+      "fnr": 0.10256410256410256
+    }
+  },
+  "latencia_requisicao_ms": {
+    "p50": 59.75,
+    "p95": 79.47299999999998,
+    "p99": 93.28680000000004,
+    "media": 60.04937416777629,
+    "max": 727.41
+  },
+  "inferencia_ms": {
+    "p50": 32.01,
+    "p95": 48.00199999999999,
+    "p99": 55.87520000000001,
+    "fonte": "tempo de inferência medido no servidor"
+  },
+  "alertas_gerados": 2344,
+  "previstos_ataque": 2344,
+  "p95_ate_alerta_ms": 54.48899999999998,
+  "fonte_ct04": "tempo no servidor até o alerta gravado",
+  "http_sem_token": 401
+}

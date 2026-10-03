@@ -1,0 +1,13 @@
+{
+  "url": "http://localhost:8000",
+  "inicio": "2026-10-03T17:30:39",
+  "fluxos": 200,
+  "campos_ok": 1600,
+  "campos_total": 1600,
+  "divergencias": [],
+  "gravar_log_ms": {
+    "p50": 1.76,
+    "p95": 19.835499999999957,
+    "p99": 40.19279999999996
+  }
+}

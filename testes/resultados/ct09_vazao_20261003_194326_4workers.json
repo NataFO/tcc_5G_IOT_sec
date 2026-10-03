@@ -1,0 +1,27 @@
+{
+  "url": "http://127.0.0.1:8000",
+  "modo": "maximo",
+  "inicio": "2026-10-03T19:43:26",
+  "gnodebs": 4,
+  "rodadas": [
+    {
+      "enviadas": 2544,
+      "sucesso": 2544,
+      "erros": 0,
+      "tipos_de_erro": {},
+      "duracao_s": 30.15,
+      "fluxos_por_s": 84.38,
+      "pacotes_representados_por_s": 3416852.9,
+      "inferencia_p50_ms": 39.7,
+      "inferencia_p95_ms": 123.35549999999999,
+      "servidor_p95_ms": 136.29049999999998,
+      "modelo_p95_ms": 43.7785,
+      "fila_p95_ms": 83.8055,
+      "requisicao_p50_ms": 71.539550088346,
+      "requisicao_p95_ms": 167.548029939644,
+      "clientes": 8,
+      "gnodebs": 4,
+      "rotulo": "4workers"
+    }
+  ]
+}

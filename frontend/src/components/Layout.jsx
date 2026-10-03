@@ -1,5 +1,6 @@
 import { NavLink, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import AlertNotifier from "./AlertNotifier";
 
 const links = [
   { to: "/", label: "Visão geral", end: true },
@@ -60,6 +61,9 @@ export default function Layout() {
           <Outlet />
         </main>
       </div>
+
+      {/* Notificação de alertas novos em qualquer tela (RF03 / CT05) */}
+      <AlertNotifier />
     </div>
   );
 }

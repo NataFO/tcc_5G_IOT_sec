@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import StatusBadge from "../components/StatusBadge";
+import { useAuth } from "../context/AuthContext";
 
 const FORM_INICIAL = {
   nome_dispositivo: "",
@@ -10,12 +11,18 @@ const FORM_INICIAL = {
 };
 
 export default function DevicesPage() {
+  const { user } = useAuth();
+  // Só o admin configura dispositivos (a API também bloqueia: RF05 / CT13).
+  const podeConfigurar = user?.perfil === "admin";
   const [dispositivos, setDispositivos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [form, setForm] = useState(FORM_INICIAL);
   const [salvando, setSalvando] = useState(false);
   const [formError, setFormError] = useState(null);
+  const [formOk, setFormOk] = useState(null);
+  // null = cadastrando um novo; número = editando o dispositivo com esse id
+  const [editandoId, setEditandoId] = useState(null);
 
   async function carregar() {
     setLoading(true);
@@ -34,12 +41,39 @@ export default function DevicesPage() {
     carregar();
   }, []);
 
+  function iniciarEdicao(d) {
+    setEditandoId(d.id_dispositivo);
+    setForm({
+      nome_dispositivo: d.nome_dispositivo,
+      tipo: d.tipo,
+      ip_address: d.ip_address,
+      gnodeb_associado: d.gnodeb_associado,
+    });
+    setFormError(null);
+    setFormOk(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelarEdicao() {
+    setEditandoId(null);
+    setForm(FORM_INICIAL);
+    setFormError(null);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setFormError(null);
+    setFormOk(null);
     setSalvando(true);
     try {
-      await api.criarDispositivo(form);
+      if (editandoId) {
+        await api.atualizarDispositivo(editandoId, form);
+        setFormOk(`Dispositivo #${editandoId} atualizado.`);
+        setEditandoId(null);
+      } else {
+        const novo = await api.criarDispositivo(form);
+        setFormOk(`Dispositivo #${novo.id_dispositivo} cadastrado.`);
+      }
       setForm(FORM_INICIAL);
       await carregar();
     } catch (err) {
@@ -66,9 +100,16 @@ export default function DevicesPage() {
         <p>Cadastro e status dos dispositivos monitorados na rede 5G.</p>
       </div>
 
+      {!podeConfigurar && (
+        <div className="alert-box ok">
+          Seu perfil ({user?.perfil}) permite apenas consultar os dispositivos.
+        </div>
+      )}
+
+      {podeConfigurar && (
       <section className="panel">
         <div className="panel-header">
-          <h2>Novo dispositivo</h2>
+          <h2>{editandoId ? `Editando dispositivo #${editandoId}` : "Novo dispositivo"}</h2>
         </div>
         <form className="inline-form" onSubmit={handleSubmit}>
           <label className="field">
@@ -106,11 +147,18 @@ export default function DevicesPage() {
             />
           </label>
           <button className="btn btn-primary" type="submit" disabled={salvando}>
-            {salvando ? "Salvando..." : "Cadastrar"}
+            {salvando ? "Salvando..." : editandoId ? "Salvar alterações" : "Cadastrar"}
           </button>
+          {editandoId && (
+            <button className="btn btn-ghost" type="button" onClick={cancelarEdicao}>
+              Cancelar
+            </button>
+          )}
         </form>
         {formError && <div className="alert-box error">{formError}</div>}
+        {formOk && <div className="alert-box ok">{formOk}</div>}
       </section>
+      )}
 
       <section className="panel">
         <div className="panel-header">
@@ -143,13 +191,23 @@ export default function DevicesPage() {
                 </td>
                 <td>{new Date(d.registrado_em).toLocaleString("pt-BR")}</td>
                 <td>
-                  {d.status === "ativo" && (
+                  {podeConfigurar && (
+                  <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
                     <button
                       className="btn btn-ghost btn-small"
-                      onClick={() => handleDesativar(d.id_dispositivo)}
+                      onClick={() => iniciarEdicao(d)}
                     >
-                      Desativar
+                      Editar
                     </button>
+                    {d.status === "ativo" && (
+                      <button
+                        className="btn btn-ghost btn-small"
+                        onClick={() => handleDesativar(d.id_dispositivo)}
+                      >
+                        Desativar
+                      </button>
+                    )}
+                  </div>
                   )}
                 </td>
               </tr>

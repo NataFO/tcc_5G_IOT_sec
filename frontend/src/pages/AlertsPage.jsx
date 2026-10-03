@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import StatusBadge from "../components/StatusBadge";
+import { useAuth } from "../context/AuthContext";
 
 const STATUS_OPCOES = ["aberto", "investigando", "falso_positivo", "resolvido"];
 
 export default function AlertsPage() {
+  const { user } = useAuth();
+  // viewer só consulta; mudar o status do alerta é para admin e analista.
+  const podeTratar = user?.perfil === "admin" || user?.perfil === "analista";
   const [alertas, setAlertas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -70,6 +74,11 @@ export default function AlertsPage() {
           </select>
         </div>
 
+        {!podeTratar && (
+          <div className="alert-box ok">
+            Seu perfil ({user?.perfil}) permite apenas consultar os alertas.
+          </div>
+        )}
         {error && <div className="alert-box error">{error}</div>}
 
         <table className="table">
@@ -98,7 +107,9 @@ export default function AlertsPage() {
                 <td>
                   <select
                     value={a.status_alerta}
-                    disabled={salvandoId === a.id_alerta}
+                    disabled={!podeTratar || salvandoId === a.id_alerta}
+                    title={podeTratar ? undefined : "Seu perfil permite apenas consultar"}
+                    style={podeTratar ? undefined : { opacity: 0.45, cursor: "not-allowed" }}
                     onChange={(e) => handleStatusChange(a, e.target.value)}
                   >
                     {STATUS_OPCOES.map((s) => (
