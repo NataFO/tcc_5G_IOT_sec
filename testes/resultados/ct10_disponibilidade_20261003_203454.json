@@ -1,0 +1,29 @@
+{
+  "url": "https://tcc5giotsec-production.up.railway.app",
+  "inicio": "2026-10-03T20:34:54",
+  "eventos": [
+    {
+      "evento": "falha provocada (POST /admin/simular-falha)",
+      "t_s": 0.27,
+      "hora": "20:34:55"
+    },
+    {
+      "evento": "API parou de responder (queda)",
+      "t_s": 1.32,
+      "hora": "20:34:56"
+    },
+    {
+      "evento": "API voltou a responder (GET / = 200)",
+      "t_s": 4.56,
+      "hora": "20:34:59"
+    },
+    {
+      "evento": "API voltou a classificar fluxos (POST /logs/ = 200)",
+      "t_s": 5.45,
+      "hora": "20:35:00"
+    }
+  ],
+  "modo": "falha_provocada",
+  "recuperacao_s": 3.2,
+  "ate_classificar_s": 4.1
+}

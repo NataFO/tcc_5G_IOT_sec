@@ -1,0 +1,64 @@
+{
+  "backend": "https://tcc5giotsec-production.up.railway.app",
+  "ambiente": "Nuvem (Railway)",
+  "inicio": "2026-10-03T20:15:17",
+  "fim": "2026-10-03T20:20:20",
+  "amostras": 1000,
+  "vp": 339,
+  "vn": 590,
+  "fp": 17,
+  "fn": 54,
+  "acuracia": 0.929,
+  "fpr": 0.02800658978583196,
+  "fnr_geral": 0.13740458015267176,
+  "fnr_ddos": 0.10989010989010989,
+  "n_ddos": 91,
+  "fnr_por_tipo": {
+    "bruteforce": {
+      "n": 4,
+      "fnr": 0.0
+    },
+    "ddos": {
+      "n": 91,
+      "fnr": 0.10989010989010989
+    },
+    "dos": {
+      "n": 86,
+      "fnr": 0.046511627906976744
+    },
+    "malware": {
+      "n": 27,
+      "fnr": 0.037037037037037035
+    },
+    "mitm": {
+      "n": 28,
+      "fnr": 0.39285714285714285
+    },
+    "recon": {
+      "n": 147,
+      "fnr": 0.17687074829931973
+    },
+    "web": {
+      "n": 10,
+      "fnr": 0.2
+    }
+  },
+  "latencia_requisicao_ms": {
+    "p50": 257.235,
+    "p95": 487.0204999999999,
+    "p99": 1026.9129999999998,
+    "media": 302.15277000000003,
+    "max": 3262.55
+  },
+  "inferencia_ms": {
+    "p50": 10.94,
+    "p95": 16.6,
+    "p99": 24.326099999999993,
+    "fonte": "tempo de inferência medido no servidor"
+  },
+  "alertas_gerados": 356,
+  "previstos_ataque": 356,
+  "p95_ate_alerta_ms": 334.945,
+  "fonte_ct04": "tempo no servidor até o alerta gravado",
+  "http_sem_token": 401
+}
