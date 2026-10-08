@@ -12,3 +12,6 @@ frontend/node_modules/
 frontend/dist/
 # arquivos de configuração com senhas (Local.env, Railway.env...)
 *.env
+
+# Packet Tracer: o .pkt guarda a senha do coletor dentro do script da SBC
+*.pkt
